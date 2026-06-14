@@ -105,6 +105,30 @@ This command:
 - Installs Uvicorn
 - Updates project dependencies
 
+## Activating the Virtual Environment
+
+`uv` automatically uses the project's virtual environment when you run commands with `uv run`.
+
+If you want to activate the virtual environment manually, use the command for your system:
+
+### macOS / Linux
+
+```bash
+source .venv/bin/activate
+```
+
+### Windows (PowerShell)
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+To deactivate the virtual environment:
+
+```bash
+deactivate
+```
+
 ---
 
 # Project Structure
@@ -313,5 +337,4 @@ Expected response for `/health`:
   "status": "running"
 }
 ```
-
 

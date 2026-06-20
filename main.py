@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Response
-
+from pydantic import BaseModel
 app = FastAPI()
 
 
@@ -57,9 +57,21 @@ def posts(limit:int, page:int=1):
         "limit": limit
     }
 
-
+class Student(BaseModel):
+    name: str
+    email: str
+    year_of_birth: int  | None = 2000
+    age: int  | None 
 
 
 @app.post("/student")
-def create_student():
-    pass
+def create_student(student: Student):
+
+
+    cal_age = 2026 - student.year_of_birth
+    student.age = cal_age
+
+    return {
+        "message": "Student created",
+        "student": student
+    }

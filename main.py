@@ -35,3 +35,31 @@ def student(student_id: int):
         }
     except:
         return Response("User not found", status_code=404)
+
+
+
+@app.get("/teacher")
+def student(level:str = "beginner"):
+
+    return {
+        "level": f"You are a {level}"
+    }
+
+
+@app.get("/post")
+def posts(limit:int, page:int=1):
+
+    # 
+
+
+    return {
+        "page": page,
+        "limit": limit
+    }
+
+
+
+
+@app.post("/student")
+def create_student():
+    pass

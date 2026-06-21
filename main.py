@@ -1,5 +1,5 @@
-from fastapi import FastAPI, Response
-from pydantic import BaseModel
+from fastapi import FastAPI, Response, status
+from pydantic import BaseModel, Field, EmailStr
 app = FastAPI()
 
 
@@ -58,19 +58,22 @@ def posts(limit:int, page:int=1):
     }
 
 class Student(BaseModel):
-    name: str
-    email: str
-    year_of_birth: int  | None = 2000
-    age: int  | None 
+    name: str = Field(
+        min_length=3,
+        max_length=8,
+        default="Ridwan"
+    )
+    email:  EmailStr
+    year_of_birth: int = Field(
+        ge=2006,
+        le=2026,
+    )
+    is_active: bool 
 
 
-@app.post("/student")
+@app.post("/student", status_code=status.HTTP_201_CREATED)
 def create_student(student: Student):
-
-
-    cal_age = 2026 - student.year_of_birth
-    student.age = cal_age
-
+   
     return {
         "message": "Student created",
         "student": student

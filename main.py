@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Response, status
+from fastapi import FastAPI, Response, status, HTTPException
 from pydantic import BaseModel, Field, EmailStr
 app = FastAPI()
 
@@ -74,6 +74,14 @@ class Student(BaseModel):
 @app.post("/student", status_code=status.HTTP_201_CREATED)
 def create_student(student: Student):
    
+    database = ['ade@ade.com', 'admin@nigeria.com', 'ridwan@rhedwan.com', "user@example.com"]
+
+    if student.email in database:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Student already exists"
+        )
+
     return {
         "message": "Student created",
         "student": student

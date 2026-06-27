@@ -23,7 +23,7 @@ class TodoUpdate(BaseModel):
 class TodoResponse(TodoBase): 
     id: int
 
-    created_at = datetime
+    created_at: datetime
     model_config = ConfigDict(from_attributes=True)
 
 
@@ -37,6 +37,6 @@ class TodoResponse(TodoBase):
 #     description: str | None = None
 #     completed: bool = False
 
-#     created_at = datetime
+#     created_at: datetime
 #     model_config = ConfigDict(from_attributes=True)
 

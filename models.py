@@ -16,10 +16,10 @@ class Todo(Base):
         index=True
     )
 
-    title = Mapped[str] = mapped_column(String, index=True)
-    description = Mapped[str | None] = mapped_column(String)
-    completed = Mapped[bool] = mapped_column(Boolean)
-    created_at = Mapped[datetime] = mapped_column(DateTime, default=lambda:datetime.now(timezone.utc))
+    title:  Mapped[str] = mapped_column(String, index=True)
+    description: Mapped[str | None] = mapped_column(String)
+    completed: Mapped[bool] = mapped_column(Boolean)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=lambda:datetime.now(timezone.utc))
 
 
 

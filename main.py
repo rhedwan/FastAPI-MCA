@@ -49,7 +49,7 @@ def get_todo(todo_id:int, db: Session = Depends(get_db)):
 
 # UPDATE
 @app.put('/todos/{todo_id}', response_model=TodoResponse)
-def get_todo(todo_id:int, payload: TodoUpdate, db: Session = Depends(get_db)):
+def update_todo(todo_id:int, payload: TodoUpdate, db: Session = Depends(get_db)):
 
     todo = db.query(Todo).filter(Todo.id == todo_id).first()
 

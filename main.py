@@ -31,8 +31,22 @@ def create_todo(payload:TodoCreate, db: Session = Depends(get_db)):
 
 #READ (all)
 @app.get("/todos", response_model=list[TodoResponse])
-def list_todos(db: Session = Depends(get_db)):
-    return db.query(Todo).all()
+def list_todos(
+    completed:bool | None = None, 
+    search: str | None = None,
+    db: Session = Depends(get_db)):
+    query =  db.query(Todo)
+
+    if completed is not None:
+        query = query.filter(Todo.completed == completed)
+
+
+    if search: 
+        query = query.filter(Todo.title.ilike(f"%{search}%"))
+
+        
+
+    return query.all()
 
 
 

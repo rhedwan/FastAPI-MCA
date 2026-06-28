@@ -51,7 +51,9 @@ def get_todo(todo_id:int, db: Session = Depends(get_db)):
 @app.put('/todos/{todo_id}', response_model=TodoResponse)
 def update_todo(todo_id:int, payload: TodoUpdate, db: Session = Depends(get_db)):
 
-    todo = db.query(Todo).filter(Todo.id == todo_id).first()
+    todo = db.query(Todo).filter(Todo.id == todo_id).first() 
+
+    # None or False
 
     if not todo:
         raise HTTPException(status_code=404, detail="Todo not found!")
@@ -66,3 +68,20 @@ def update_todo(todo_id:int, payload: TodoUpdate, db: Session = Depends(get_db))
     db.refresh(todo)
     return todo
 
+
+
+# DELETE 
+@app.delete('/todos/{todo_id}', status_code=status.HTTP_204_NO_CONTENT)
+def delete_todo(todo_id:int, db: Session = Depends(get_db)):
+
+    todo = db.query(Todo).filter(Todo.id == todo_id).first() 
+
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found!")
+
+    db.delete(todo)
+    db.commit()
+
+
+
+    # C -> Create R-> Read U-Update D-Delete

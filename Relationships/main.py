@@ -2,9 +2,9 @@ from fastapi import FastAPI, Response, status, HTTPException, Depends
 from sqlalchemy.orm import Session
 
 from database import engine, get_db
-from schemas import AuthorResponse, AuthorCreate, BookCreate, BookResponse
+from schemas import AuthorResponse, AuthorCreate, BookCreate, BookResponse, AuthorWithBooks
 from models import Author, Book
-
+import uuid
 
 app = FastAPI()
 
@@ -61,3 +61,17 @@ def create_book(book: BookCreate, db: Session = Depends(get_db)):
     db.refresh(new_book)
 
     return new_book
+
+
+
+@app.get("/authors/{author_id}", response_model=AuthorWithBooks)
+def get_author(author_id: uuid.UUID,  db: Session = Depends(get_db)):
+    author  = db.get(Author, author_id)
+
+    if author is None:
+        raise HTTPException(
+            status_code=404, detail="Author not found"
+        )
+
+
+    return author

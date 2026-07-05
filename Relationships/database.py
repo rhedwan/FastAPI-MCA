@@ -4,7 +4,7 @@ from  sqlalchemy.orm import DeclarativeBase
 
 
 
-DATABASE_URL = "sqlite:///todos.db"
+DATABASE_URL = "sqlite:///authors.db"
 
 
 #  manages communication with the database

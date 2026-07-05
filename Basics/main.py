@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Response, status, HTTPException, Depends
 from sqlalchemy.orm import Session
 
-from database import engine, get_db
-from models import Base, Todo
-from schemas import TodoCreate, TodoUpdate, TodoResponse
+from Relationships.database import engine, get_db
+from Basics.models import Base, Todo
+from Basics.schemas import TodoCreate, TodoUpdate, TodoResponse
 
 
 

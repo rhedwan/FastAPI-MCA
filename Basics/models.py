@@ -3,7 +3,7 @@ from sqlalchemy import Integer, String, Boolean, DateTime
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 
-from database import Base
+from Relationships.database import Base
 
 
 class Todo(Base):

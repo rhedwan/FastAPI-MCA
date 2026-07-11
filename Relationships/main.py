@@ -75,3 +75,8 @@ def get_author(author_id: uuid.UUID,  db: Session = Depends(get_db)):
 
 
     return author
+
+
+@app.get('/books', response_model=list[BookResponse])
+def list_books(db: Session = Depends(get_db)):
+    return db.query(Book).all()

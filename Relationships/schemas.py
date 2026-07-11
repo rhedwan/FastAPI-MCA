@@ -30,7 +30,8 @@ class BookResponse(BaseModel):
     id: uuid.UUID
     name: str
     published_year: int
-    author_id: uuid.UUID
+    # author_id: uuid.UUID
+    author: AuthorResponse
 
 
     model_config ={

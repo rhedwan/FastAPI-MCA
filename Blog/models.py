@@ -77,8 +77,11 @@ class Post(SQLModel, table=True):
         foreign_key="user.id"
     )
 
-    author: User = Relationship(back_populates="post")
-
+    author: User = Relationship(back_populates="posts")
+    comments: list["Comment"] = Relationship(
+        back_populates="post",
+        cascade_delete=True,
+    )
 
 
 
@@ -109,5 +112,5 @@ class Comment(SQLModel, table=True):
         foreign_key="post.id", index=True
     )
     author: User = Relationship(back_populates="comments")
-    post: User = Relationship(back_populates="comments")
+    post: Post = Relationship(back_populates="comments")
 

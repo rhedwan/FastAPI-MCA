@@ -1,4 +1,3 @@
-from  sqlalchemy.orm import DeclarativeBase
 from sqlmodel import Session, create_engine
 
 
@@ -11,10 +10,6 @@ engine = create_engine(
     DATABASE_URL,
     connect_args={"check_same_thread": False}
 )
-
-
-class Base(DeclarativeBase):
-    pass
 
 
 def get_db():

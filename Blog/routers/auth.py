@@ -10,7 +10,6 @@ def register():
 
 
 
-
 @router.post("/login")
 def login():
     pass

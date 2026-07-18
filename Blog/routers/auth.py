@@ -26,5 +26,5 @@ def login(data: LoginRequest, session: DatabaseSession):
 
 
 @router.get("/me", response_model=UserRead)
-def login(current_user: CurrentUser):
+def me(current_user: CurrentUser):
     return current_user

@@ -17,13 +17,13 @@ def register_user(data: UserCreate, session: Session) -> User:
 
     if email_exists:
         raise HTTPException(
-            status=status.HTTP_409_CONFLICT,
+            status_code=status.HTTP_409_CONFLICT,
             detail="Email is already registered"
         )
     
     if username_exist:
         raise HTTPException(
-            status=status.HTTP_409_CONFLICT,
+            status_code=status.HTTP_409_CONFLICT,
             detail="Username is already taken"
         )
     
@@ -33,7 +33,7 @@ def register_user(data: UserCreate, session: Session) -> User:
         hashed_password=hash_password(data.password)
     )
 
-    session.add(User)
+    session.add(user)
     session.commit()
     session.refresh(user)
     return user
@@ -44,13 +44,13 @@ def authenticate_user(data: LoginRequest, session:Session) -> User:
     user = get_user_by_email(data.email, session)
     if user is None or not verify_password(data.password, user.hashed_password):
         raise HTTPException(
-            status=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password"
         )
     
     if not user.is_active:
         raise HTTPException(
-            status=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_401_UNAUTHORIZED,
             detail="User account is inactive"
         )
     

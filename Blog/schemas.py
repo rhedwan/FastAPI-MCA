@@ -1,6 +1,7 @@
 import uuid
 from pydantic import BaseModel, EmailStr
 from sqlmodel import SQLModel, Field
+from datetime import datetime
 
 
 
@@ -26,6 +27,7 @@ class UserRead(SQLModel):
     username: str 
     email: EmailStr
     is_admin: bool
+    created_at: datetime
 
 
 class TokenResponse(SQLModel):

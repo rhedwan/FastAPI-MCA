@@ -59,6 +59,7 @@ class Post(SQLModel, table=True):
         min_length=3, 
         max_length=200
     )
+    is_published: bool= Field(default=False, index= True)
     content: str = Field(min_length=10)
 
 

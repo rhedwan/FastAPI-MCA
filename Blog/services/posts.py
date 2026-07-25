@@ -30,3 +30,12 @@ def create_post(data: PostCreate, user: User, session: Session) -> Post:
     session.commit()
     session.refresh(post)
     return post
+
+def update_post(post_id:uuid.UUID, data: PostUpdate, user: User, session: Session) -> Post:
+    post = get_post_or_404(post_id, session)
+    require_post_author(post, user)
+    post.sqlmodel_update(data.model_dump(exclude_unset=True))
+    session.add(post)
+    session.commit()
+    session.refresh(post)
+    return post

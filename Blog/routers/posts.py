@@ -1,7 +1,7 @@
 from fastapi import APIRouter, status, HTTPException
-from schemas import PostRead, PostCreate, PublishedPost
+from schemas import PostRead, PostCreate, PublishedPost, PostUpdate
 from dependencies import CurrentUser, DatabaseSession
-from services.posts import create_post, get_post_or_404, require_post_author
+from services.posts import create_post, get_post_or_404, require_post_author, update_post
 
 import uuid
 router = APIRouter()
@@ -31,3 +31,9 @@ def publish(post_id:uuid.UUID, data:PublishedPost, current_user: CurrentUser,  s
     session.commit()
     session.refresh(post)
     return post
+
+
+
+@router.patch("/{post_id}", response_model=PostRead)
+def update(post_id:uuid.UUID, data:PostUpdate, current_user: CurrentUser,  session: DatabaseSession):
+    return update_post(post_id, data, current_user, session)

@@ -58,3 +58,9 @@ def update_post(post_id:uuid.UUID, data: PostUpdate, user: User, session: Sessio
     session.commit()
     session.refresh(post)
     return post
+
+def delete_post(post_id:uuid.UUID, user: User, session: Session):
+    post = get_post_or_404(post_id, session)
+    require_post_author(post, user)
+    session.delete(post)
+    session.commit()

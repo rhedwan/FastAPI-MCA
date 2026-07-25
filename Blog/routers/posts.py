@@ -47,18 +47,6 @@ def read_post(post_id:uuid.UUID, session: DatabaseSession):
     return post
 
 
-@router.patch("/{post_id}/publish", response_model=PostRead)
-def publish(post_id:uuid.UUID, data:PublishedPost, current_user: CurrentUser,  session: DatabaseSession):
-    post = get_post_or_404(post_id, session)
-    require_post_author(post, current_user)
-    post.is_published = data.is_published
-    session.add(post)
-    session.commit()
-    session.refresh(post)
-    return post
-
-
-
 @router.patch("/{post_id}", response_model=PostRead)
 def update(post_id:uuid.UUID, data:PostUpdate, current_user: CurrentUser,  session: DatabaseSession):
     return update_post(post_id, data, current_user, session)

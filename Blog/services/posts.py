@@ -3,6 +3,7 @@ from fastapi import HTTPException, status
 from sqlmodel import Session
 from schemas import PostCreate, PostRead, PostUpdate
 from models import Post, User
+from sqlmodel import col, select, or_
 
 
 
@@ -30,6 +31,24 @@ def create_post(data: PostCreate, user: User, session: Session) -> Post:
     session.commit()
     session.refresh(post)
     return post
+
+def list_published_posts(
+        session: Session,  search: str, 
+        limit:int, offset:int) -> list[Post]:
+
+    statement = select(Post).where(Post.is_published).order_by(col(Post.created_at).desc())
+
+    if search:
+        statement = statement.where(
+            or_(
+                col(Post.title).contains(search),
+                col(Post.content).contains(search)
+            )
+        )
+
+
+    statement = statement.offset(offset).limit(limit)
+    return session.exec(statement).all()
 
 def update_post(post_id:uuid.UUID, data: PostUpdate, user: User, session: Session) -> Post:
     post = get_post_or_404(post_id, session)

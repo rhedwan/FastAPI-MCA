@@ -9,3 +9,8 @@ wheels/
 # Virtual environments
 .venv
 */NOTE.md
+
+# Local environment secrets
+.env
+.env.*
+!.env.example

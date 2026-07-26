@@ -1,12 +1,11 @@
-import os
 import uuid
 from datetime import datetime, timedelta, timezone
 
 import jwt
 from pwdlib import PasswordHash
 
+from config import SECRET_KEY
 
-SECRET_KEY = "ZCkgPSrTc0207rcXPmh8mlGEEnl1KYjiSxeOzOGk3dvh95cU"
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MOINUTES = 30
 

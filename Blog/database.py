@@ -1,8 +1,6 @@
 from sqlmodel import Session, create_engine
 
-
-DATABASE_URL = "sqlite:///blog.db"
-
+from config import DATABASE_URL
 
 #  manages communication with the database
 #  FastAPI -> Engine -> Database

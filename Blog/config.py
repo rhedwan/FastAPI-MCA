@@ -27,10 +27,18 @@ def pasrse_origins(value: str | None) -> list[str]:
 CORS_ORIGINS = pasrse_origins(os.getenv("CORS_ORIGINS"))
 
 
-if APP_ENV == "production" and  bool(TURSO_DATABASE_URL) != bool(TURSO_AUTH_TOKEN):
+using_turso = bool(TURSO_DATABASE_URL or TURSO_AUTH_TOKEN)
+
+if  bool(TURSO_DATABASE_URL) != bool(TURSO_AUTH_TOKEN):
     raise RuntimeError(
-        "TURSO_DATABASE_URL and TURSO_AUTH_TOKEN must be set together and  are required for production"
+        "TURSO_DATABASE_URL and TURSO_AUTH_TOKEN must be set together"
     )
+
+
+if APP_ENV == "production" and not using_turso:
+    raise RuntimeError(
+            "TURSO_DATABASE_URL and TURSO_AUTH_TOKEN are required for production"
+        )
 
 
 if not SECRET_KEY:
@@ -41,5 +49,5 @@ if not SECRET_KEY:
 
 if "*" in CORS_ORIGINS:
     raise RuntimeError(
-        "CORS_ORIGINS must list explict origins."
+        "CORS_ORIGINS must list explict origins"
     ) 

@@ -7,18 +7,39 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent
 load_dotenv(BASE_DIR / ".env")
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+APP_ENV = os.getenv("APP_ENV", "development").lower()
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///blog.db")
+TURSO_DATABASE_URL = os.getenv("TURSO_DATABASE_URL")
+TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
-missing_variables = [
-    name
-    for name, value in {
-        "DATABASE_URL": DATABASE_URL,
-        "SECRET_KEY": SECRET_KEY,
-    }.items()
-    if not value
-]
 
-if missing_variables:
-    missing = ", ".join(missing_variables)
-    raise RuntimeError(f"Missing required environment variables: {missing}")
+def pasrse_origins(value: str | None) -> list[str]:
+    if not value:
+        return []
+
+    origins = [origin.strip().rstrip("/") for origin in value.split(",")]
+    return [origin for origin in origins if origin]
+
+
+#  https://blog.example.com, http://localhost:3000 -> ["https://blog.example.com","http://localhost:3000"]
+
+CORS_ORIGINS = pasrse_origins(os.getenv("CORS_ORIGINS"))
+
+
+if APP_ENV == "production" and  bool(TURSO_DATABASE_URL) != bool(TURSO_AUTH_TOKEN):
+    raise RuntimeError(
+        "TURSO_DATABASE_URL and TURSO_AUTH_TOKEN must be set together and  are required for production"
+    )
+
+
+if not SECRET_KEY:
+    raise RuntimeError(
+        "Missing required environment variables: SECRET_KEY"
+    ) 
+
+
+if "*" in CORS_ORIGINS:
+    raise RuntimeError(
+        "CORS_ORIGINS must list explict origins."
+    ) 
